@@ -1,0 +1,70 @@
+---
+const isExplicitStaging = 
+// local
+  import.meta.env.PUBLIC_IS_STAGING === 'true' || 
+//
+
+import.meta.env.PUBLIC_IS_STAGING === true;
+
+const cfBranch = import.meta.env.CF_PAGES_BRANCH || process.env.CF_PAGES_BRANCH;
+const isNonMainBranch = cfBranch && cfBranch !== 'main';
+
+const isStaging = isExplicitStaging || isNonMainBranch;
+
+// commit id
+const fullSha = import.meta.env.CF_PAGES_COMMIT_SHA
+const repoName = import.meta.env.PUBLIC_STAGE_REPO_NAME
+// stage repo name 
+
+const shortSha = fullSha.slice(0, 7); 
+
+const commitUrl = `https://github.com/${repoName}/commit/${fullSha}`;
+---
+
+{isStaging && (
+  <div id="staging-banner" class="sticky top-0 z-50 bg-primary-50 text-primary-950 border-b border-primary-200 dark:bg-primary-950 dark:text-primary-200 dark:border-primary-900 px-4 py-4 text-sm flex items-center justify-between shadow-md transition-colors duration-200">
+    <div class="flex-1"></div>
+    <div class="flex items-center space-x-2 text-center">
+      <svg class="w-5 h-5 text-primary-950 dark:text-primary-200 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <p>
+
+        <strong>This is a preview staging deploy</strong> from commit 
+
+        
+        <a href={commitUrl} target="_blank" rel="noopener noreferrer" class="underline font-mono text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-200">
+          {shortSha}
+
+        </a>. If you meant to access the official website, please visit production Page.
+      </p>
+    </div>
+
+    <div class="flex-1 flex justify-end">
+      <button id="close-banner" class="text-primary-600 hover:text-primary-950 dark:text-primary-400 dark:hover:text-white p-1 ml-4" aria-label="Close banner">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+<script>
+
+      function initStagingBanner() {
+        const banner = document.getElementById('staging-banner');
+
+        const closeBtn = document.getElementById('close-banner');
+        
+        closeBtn?.addEventListener('click', () => {
+          banner?.remove();
+
+        });
+      }
+
+      initStagingBanner();
+      document.addEventListener('astro:page-load', initStagingBanner);
+
+    </script>
+  </>
+)}

@@ -1,0 +1,123 @@
+---
+import Layout from '~/layouts/Layout.astro';
+import { galleries } from "~/galleries.config";
+
+const { username } = Astro.params;
+
+const userGalleries = username ? galleries[username] : undefined;
+
+if (!userGalleries) {
+  return Astro.redirect("/404");
+}
+
+const albumEntries = Object.entries(userGalleries);
+---
+
+<Layout title={`${username}'s Dashboard`} description={`Photo albums dashboard for ${username}`}>
+  <main class="dashboard-container">
+    <h1>{username}'s Photo Albums</h1>
+    <p class="subtitle">Select an album to view photos</p>
+
+    <div class="grid">
+      {
+        albumEntries.map(([slug, config]) => (
+          <a href={`/user/v2/${username}/picture/${slug}`} class="card">
+            {config.icon && (
+              <div class="card-image">
+                <img src={config.icon} alt={config.title} loading="lazy" />
+              </div>
+            )}
+            <div class="card-content">
+              <h2>{config.title}</h2>
+              <p>{config.description}</p>
+              <span class="action">View Gallery &rarr;</span>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: max(4vw, 24px);
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      text-transform: capitalize;
+    }
+
+    .subtitle {
+      opacity: 0.7;
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+    }
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .card {
+    border: 1px solid var(--border, rgba(128, 128, 128, 0.2));
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+
+    .card-image {
+      width: 100%;
+      height: 160px;
+      overflow: hidden;
+      background: rgba(128, 128, 128, 0.1);
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+    }
+
+    .card-content {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      justify-content: space-between;
+    }
+
+    h2 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      opacity: 0.7;
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.4;
+    }
+
+    .action {
+      font-weight: 600;
+    }
+
+    &:hover {
+      border-color: var(--border, rgba(128, 128, 128, 0.5));
+      
+      .card-image img {
+        transform: scale(1.05);
+      }
+    }
+  }
+</style>

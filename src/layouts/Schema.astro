@@ -1,0 +1,72 @@
+---
+export interface Props {
+  item?: Record<string, any>;
+}
+
+
+const { item } = Astro.props;
+
+const defaultSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://fryrvo.com/#website",
+      "url": "https://fryrvo.com",
+      "image": "https://cdn.fryrvo.com/assets/fryrvo_branding/Fryrvo_nobg.png",
+      "name": "Fryrvo",
+      "alternateName": ["FryrvoStudio"],
+      "publisher": {
+        "@id": "https://www.google.com/search?kgmid=/g/11z92w4s7g"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://www.google.com/search?kgmid=/g/11z92w4s7g",
+      "name": "Fryrvo",
+      "alternateName": ["Fryrvo Fox", "Cath", "Fryro", "fryrvo", "Fryrvo Fox", "fryrvo fox"],
+      "url": "https://fryrvo.com",
+      "image": "https://cdn.fryrvo.com/assets/fryrvo_branding/Fryrvo_nobg.png",
+      "jobTitle": ["Musician", "Composer", "Developer"],
+      "sameAs": [
+        "https://open.spotify.com/artist/6D4MMKyp97IcBtp3U43Xb3",
+        "https://music.apple.com/us/artist/fryrvo/6780427954",
+        "https://soundcloud.com/fryrvo",
+        "https://fryrvo.bandcamp.com",
+        "https://www.youtube.com/@Fryrvo",
+        "https://gitlab.com/Fryrvo",
+        "https://codeberg.org/Fryrvo",
+        "https://github.com/Fryrvo",
+        "https://modrinth.com/user/Fryrvo",
+        "https://tech.lgbt/@cath"
+      ],
+      "worksFor": {
+        "@type": "Organization",
+        "@id": "https://www.google.com/search?kgmid=/g/11z92vdtkw",
+        "name": "FryrvoStudio",
+        "image": "https://cdn.fryrvo.com/assets/fryrvo_branding/Logo_bg.png",
+        "sameAs": [
+         "https://www.google.com/search?kgmid=/g/11z92vdtkw",
+         "https://github.com/FryrvoStudio"
+         ]
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://fryrvo.com/#webpage",
+      "url": "https://fryrvo.com",
+      "name": "Fryrvo — Home",
+      "isPartOf": {
+        "@id": "https://fryrvo.com/#website"
+      },
+      "about": {
+        "@id": "https://www.google.com/search?kgmid=/g/11z92w4s7g"
+      }
+    }
+  ]
+};
+
+const schemaData = item ?? defaultSchema;
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
