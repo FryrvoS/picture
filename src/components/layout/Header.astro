@@ -3,28 +3,18 @@ const links = [
   {
     ref: '',
     name: 'Home',
-    href: '/',
+    href: 'https://fryrvo.com/',
   },
   {
     ref: '·',
     name: 'Music',
-    href: '/music',
+    href: 'https://fryrvo.com/music',
   },
   {
     ref: '·',
     name: 'Art',
-    href: '/picture',
+    href: 'https://fryrvo.com/picture',
   },
-  // {
-  //   ref: '05',
-  //   name: 'Developer',
-  //   href: '/stage',
-  // },
-  // {
-  //   ref: '06',
-  //   name: 'Contact',
-  //   href: '/contact',
-  // }
 ];
 
 
@@ -64,7 +54,7 @@ const links = [
 
       if (target.id === 'site-logo-head') {
         clearTimeout(t);
-        if (++c >= 1) return window.location.href = "/";
+        if (++c >= 1) return window.location.href = "https://fryrvo.com/";
         t = setTimeout(() => c = 0, 1500);
       } else {
 
@@ -169,7 +159,7 @@ const links = [
         class="hidden items-center justify-center px-2 py-3 lg:flex"
       >
        
-      <a href="/" class="w-full max-w-[500px]">
+      <a href="https://fryrvo.com/" class="w-full max-w-[500px]">
         <img
           src="https://cdn.fryrvo.com/assets/fryrvo_branding/df_banner.png"
           alt="Fryrvo Logo"
